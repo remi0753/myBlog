@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     topBox: {
         display: 'flex',
         marginBottom: '16px',
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('xs')]: {
             marginBottom: '8px',
         },
         fontSize: '1.3em',

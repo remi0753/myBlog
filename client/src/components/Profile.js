@@ -1,32 +1,41 @@
 import React from 'react';
-import { Paper, Box, CardMedia } from '@material-ui/core';
+import { Paper, Box, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import setting from '../settings';
+import Markdown from './Markdown/Markdown';
+import ProfileSNSIcons from './ProfileSNSIcons';
 
 const useStyles = makeStyles((theme) => ({
     paperContainer: {
-        padding: '16px',
+        padding: '24px',
     },
     profileTitle: {
-        fontSize: '120%',
+        fontSize: '130%',
         fontWeight: 'bold',
+        marginBottom: '1.6em',
+    },
+    iconContainer: {
+        textAlign: 'center',
         marginBottom: '1em',
     },
-    icon: {
+    profileImage: {
         width: '100%',
     },
 }));
 
 const Profile = () => {
     const classes = useStyles();
-    const { iconPath } = setting;
-    console.log(iconPath)
+    const { iconPath, profile } = setting;
 
     return (
         <Paper className={classes.paperContainer}>
             <Box className={classes.profileTitle}>プロフィール</Box>
-            <img src={iconPath} className={classes.icon}/>
+            <Container className={classes.iconContainer}>
+                <img src={iconPath} alt="remi" className={classes.profileImage}/>
+            </Container>
+            <Markdown source={profile} />
+            <ProfileSNSIcons />
         </Paper>
     );
 };

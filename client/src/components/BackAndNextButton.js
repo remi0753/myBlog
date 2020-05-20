@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
     buttonContainer: {
         display: 'flex',
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('xs')]: {
             marginBottom: '3em',
         },
     },

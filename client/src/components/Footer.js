@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#fefefe',
         width: '100%',
         padding: theme.spacing(2, 0),
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('xs')]: {
             fontSize: '.7em',
             padding: theme.spacing(1, 0),
         },
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         fontSize: '1em',
         margin: '10px 0',
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('xs')]: {
             margin: '5px 0',
         },
     },
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Footer = (props) => {
     const classes = useStyles();
-    const { title, twitter, github } = props;
+    const { title, twitter, github, copyright } = props;
     
     return (
         <footer className={classes.footer}>
@@ -59,7 +59,7 @@ const Footer = (props) => {
                     <a href={`https://github.com/${github}`} className={classes.descriptionLink}>{github}</a>
                 </Box>
                 <Box className={classes.copyright}>
-                    {'Copyright © Remi '}
+                    {'Copyright © ' + copyright + ' '}
                     {new Date().getFullYear()}
                     {'.'}
                 </Box>

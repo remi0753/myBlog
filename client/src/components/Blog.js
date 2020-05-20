@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     container: {
         backgroundColor: '#e3e3e6',
         padding: '32px 64px',
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('xs')]: {
             fontSize: '.7em',
             padding: '16px'
         },
@@ -51,7 +51,7 @@ const ScrollTop = (props) => {
 
 const Blog = (props) => {
     const classes = useStyles();
-    const { title, twitter, github } = setting;
+    const { title, twitter, github, copyright } = setting;
 
     return (
         <React.Fragment >
@@ -66,7 +66,7 @@ const Blog = (props) => {
                     </Fab>
                 </ScrollTop>       
             </Container>
-            <Footer title={title} twitter={twitter} github={github} />
+            <Footer title={title} twitter={twitter} github={github} copyright={copyright}/>
         </React.Fragment>
 
     );
