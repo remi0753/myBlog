@@ -12,6 +12,43 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
+const testData = [
+    {
+        id: 'test',
+        date: '2020/05/17',
+        title: 'ブログのタイトル',
+        description: '日本語の文章のテストだよ。とりあえず長々と書いてみるよ。え？なんでこんな文章でテストしてるかって？そりゃ、ああああああ、みたいのじゃ面白くないでしょ？。',
+        main: 'main.',
+        category: '雑談',
+        tag: [
+            'test', 'js',
+        ],
+    },
+    {
+        id: 'test',
+        date: '2020/05/17',
+        title: 'ブログのタイトル2',
+        description: 'This is a description.',
+        main: 'main.',
+        category: '雑談',
+        tag: [
+            'test', 'js', 'aaaaaa', 'wwwwwwwwwwww', 'たぐううううううう'
+        ],
+    },
+    {
+        id: 'test',
+        date: '2020/05/17',
+        title: 'ブログのタイトル、結構長いタイトルのてすとだよおおおおおおおおおおおおお',
+        description: 'This is a description.',
+        main: 'main.',
+        category: '雑談',
+        tag: [
+            'test', 'js',
+        ],
+    },
+];
+
 const BlogMain = ({ match }) => {
     const classes = useStyles();
     const { category, tag } = match.params;
@@ -21,8 +58,8 @@ const BlogMain = ({ match }) => {
             {category ? <TopInfo type="category" content={category} /> : null}
             {tag ? <TopInfo type="tag" content={tag} /> : null}
             <Grid container spacing={0} className={classes.mainGrid}>
-                <DisplayArticles match={match}/>
-                <SideBar />
+                <DisplayArticles match={match} data={testData}/>
+                <SideBar data={testData}/>
             </Grid>
         </main>
     );

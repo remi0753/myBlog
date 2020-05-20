@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#e3e3e6',
         padding: '32px 64px',
         [theme.breakpoints.down('xs')]: {
-            fontSize: '.7em',
+            fontSize: '.9em',
             padding: '16px'
         },
     },
