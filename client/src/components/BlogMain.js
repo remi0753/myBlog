@@ -1,17 +1,25 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Route, Switch } from 'react-router-dom';
 
 import DisplayArticles from './DisplayArticles';
 import SideBar from './SideBar';
-import TopInfo from './TopInfo';
+import NotFound from './NotFound';
 
 const useStyles = makeStyles((theme) => ({
     mainGrid: {
         padding: '0',
     },
+    container: {
+        backgroundColor: '#e3e3e6',
+        padding: '32px 64px',
+        [theme.breakpoints.down('xs')]: {
+            fontSize: '.9em',
+            padding: '16px'
+        },
+        display: 'flex',
+    },
 }));
-
 
 const testData = [
     {
@@ -49,18 +57,26 @@ const testData = [
     },
 ];
 
-const BlogMain = ({ match }) => {
+const BlogMain = () => {
     const classes = useStyles();
-    const { category, tag } = match.params;
+
+    const DisplayArticlesWithData = () => (
+        <DisplayArticles data={testData} />
+    );
 
     return (
-        <main>
-            {category ? <TopInfo type="category" content={category} /> : null}
-            {tag ? <TopInfo type="tag" content={tag} /> : null}
-            <Grid container spacing={0} className={classes.mainGrid}>
-                <DisplayArticles match={match} data={testData}/>
-                <SideBar data={testData}/>
-            </Grid>
+        <main className={classes.container}>
+            <Switch>
+                <Route exact path='/' component={DisplayArticlesWithData} />
+                <Route path="/page/:pageNum" exact component={DisplayArticlesWithData} />
+                <Route path="/:year/:month/:day/:id" component={DisplayArticlesWithData} />
+                <Route path="/category/:category" exact component={DisplayArticlesWithData} />
+                <Route exact path="/category/:category/page/:categoryPageNum" component={DisplayArticlesWithData} />
+                <Route path="/tag/:tag" exact component={DisplayArticlesWithData} />
+                <Route exact path="/tag/:tag/page/:tagPageNum" component={DisplayArticlesWithData} />
+                <Route component={NotFound} />
+            </Switch>
+            <SideBar data={testData}/>
         </main>
     );
 };

@@ -1,71 +1,28 @@
-import React from 'react';
-import { CssBaseline, Toolbar, useScrollTrigger, Zoom, Fab, Container } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import React, { useEffect, useState } from 'react';
+import { CssBaseline, Toolbar } from '@material-ui/core';
 
 import setting from '../settings';
 import Header from './Header';
 import Footer from './Footer';
 import BlogMain from './BlogMain';
-
-const useStyles = makeStyles((theme) => ({
-    container: {
-        backgroundColor: '#e3e3e6',
-        padding: '32px 64px',
-        [theme.breakpoints.down('xs')]: {
-            fontSize: '.9em',
-            padding: '16px'
-        },
-    },
-    root: {
-        position: 'fixed',
-        bottom: theme.spacing(2),
-        right: theme.spacing(2),
-    },
-
-}));
-
-const ScrollTop = (props) => {
-    const { children } = props;
-    const classes = useStyles();
-    const trigger = useScrollTrigger({
-        disableHysteresis: true,
-        threshold: 100,
-    });
-
-    const handleClick = (event) => {
-        const anchor = (event.target.ownerDocument || document).querySelector('#back-to-top-anchor');
-        if (anchor) {
-            anchor.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-    };
-
-    return (
-        <Zoom in={trigger}>
-            <div onClick={handleClick} role="presentation" className={classes.root}>
-                {children}
-            </div>
-        </Zoom>
-    );
-};
+import ScrollTop from './ScrollTop';
 
 const Blog = (props) => {
-    const classes = useStyles();
+    const [test, setTest] = useState(0);
+    useEffect(() => {
+        setTest(100);
+    }, [props.match]);
     const { title, twitter, github, copyright } = setting;
+    
+    console.log(test);
 
     return (
         <React.Fragment >
             <CssBaseline />
-            <Container maxWidth="lg" className={classes.container}>
-                <Header title={title} />
-                <Toolbar id="back-to-top-anchor" />
-                <BlogMain match={props.match}/>
-                <ScrollTop {...props}>
-                    <Fab color="secondary" size="small" aria-label="scroll back to top">
-                        <KeyboardArrowUpIcon />
-                    </Fab>
-                </ScrollTop>       
-            </Container>
+            <Header title={title} />
+            <Toolbar id="back-to-top-anchor" />
+            <BlogMain />
+            <ScrollTop props={props}/>
             <Footer title={title} twitter={twitter} github={github} copyright={copyright}/>
         </React.Fragment>
 
