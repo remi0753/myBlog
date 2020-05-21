@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Route, Switch } from 'react-router-dom';
 
-import DisplayArticles from './DisplayArticles';
+import ListArticles from './ListArticles';
 import SideBar from './SideBar';
 import NotFound from './NotFound';
 
@@ -14,10 +14,12 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#e3e3e6',
         padding: '32px 64px',
         [theme.breakpoints.down('xs')]: {
-            fontSize: '.9em',
+            fontSize: '.8em',
             padding: '16px'
         },
-        display: 'flex',
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+        },
     },
 }));
 
@@ -58,25 +60,29 @@ const testData = [
 ];
 
 const BlogMain = () => {
+    const [posts, setPosts] = useState([]);
+    useEffect(() => {
+        setPosts(testData);
+    }, [])
     const classes = useStyles();
 
-    const DisplayArticlesWithData = () => (
-        <DisplayArticles data={testData} />
+    const ListArticlesWithData = ({ match }) => (
+        <ListArticles data={posts} params={match.params}/>
     );
 
     return (
         <main className={classes.container}>
             <Switch>
-                <Route exact path='/' component={DisplayArticlesWithData} />
-                <Route path="/page/:pageNum" exact component={DisplayArticlesWithData} />
-                <Route path="/:year/:month/:day/:id" component={DisplayArticlesWithData} />
-                <Route path="/category/:category" exact component={DisplayArticlesWithData} />
-                <Route exact path="/category/:category/page/:categoryPageNum" component={DisplayArticlesWithData} />
-                <Route path="/tag/:tag" exact component={DisplayArticlesWithData} />
-                <Route exact path="/tag/:tag/page/:tagPageNum" component={DisplayArticlesWithData} />
+                <Route exact path='/' component={ListArticlesWithData} />
+                <Route path="/page/:pageNum" exact component={ListArticlesWithData} />
+                <Route path="/:year/:month/:day/:id" component={ListArticlesWithData} />
+                <Route path="/category/:category" exact component={ListArticlesWithData} />
+                <Route exact path="/category/:category/page/:categoryPageNum" component={ListArticlesWithData} />
+                <Route path="/tag/:tag" exact component={ListArticlesWithData} />
+                <Route exact path="/tag/:tag/page/:tagPageNum" component={ListArticlesWithData} />
                 <Route component={NotFound} />
             </Switch>
-            <SideBar data={testData}/>
+            <SideBar posts={posts}/>
         </main>
     );
 };
