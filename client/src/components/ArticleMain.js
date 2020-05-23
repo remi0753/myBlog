@@ -4,10 +4,12 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import ArticleMainHeader from './ArticleMainHeader';
 import Markdown from './Markdown/Markdown';
+import BackAndNextButton from './BackAndNextButton';
 
 const useStyles = makeStyles((theme) => ({
     container: {
         padding: '2em 3em',
+        marginBottom: '2em',
     },
 }));
 
@@ -71,6 +73,12 @@ const ArticleMain = ({ params }) => {
                     </section>
                 </article>
             </Paper>
+            <BackAndNextButton 
+                prev={article.prevTitle} 
+                prevUrl={article.prevUrl} 
+                next={article.nextTitle} 
+                nextUrl={article.nextUrl} 
+            />
         </Grid>
     );
 };

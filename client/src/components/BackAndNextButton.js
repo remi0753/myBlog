@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const BackAndNextButton = ({ prevUrl, nextUrl }) => {
+const BackAndNextButton = ({ prevUrl, nextUrl, prev, next }) => {
     const classes = useStyles();
 
     return (
@@ -37,7 +37,7 @@ const BackAndNextButton = ({ prevUrl, nextUrl }) => {
             { prevUrl ? 
                 <Link to={prevUrl} className={classes.older}>
                     <button className={classes.button} onClick={() => window.scrollTo(0, 0)}>
-                        古い記事
+                        {prev ? prev : '古い記事'}
                     </button>
                 </Link> :
                 null
@@ -45,7 +45,7 @@ const BackAndNextButton = ({ prevUrl, nextUrl }) => {
             { nextUrl ?             
                 <Link to={nextUrl} className={classes.newer}>
                     <button className={classes.button} onClick={() => window.scrollTo(0, 0)}>
-                        新しい記事
+                        {next ? next : '新しい記事'}
                     </button>
                 </Link> :
                 null
