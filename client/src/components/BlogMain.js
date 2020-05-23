@@ -31,7 +31,7 @@ const testData = [
         title: 'ブログのタイトル',
         description: '日本語の文章のテストだよ。とりあえず長々と書いてみるよ。え？なんでこんな文章でテストしてるかって？そりゃ、ああああああ、みたいのじゃ面白くないでしょ？。',
         main: 'main.',
-        category: '雑談',
+        category: '雑談1',
         tag: [
             'test', 'js',
         ],
@@ -42,7 +42,7 @@ const testData = [
         title: 'ブログのタイトル2',
         description: 'This is a description.',
         main: 'main.',
-        category: '雑談',
+        category: '雑談2',
         tag: [
             'test', 'js', 'aaaaaa', 'wwwwwwwwwwww', 'たぐううううううう'
         ],
@@ -53,9 +53,53 @@ const testData = [
         title: 'ブログのタイトル、結構長いタイトルのてすとだよおおおおおおおおおおおおお',
         description: 'This is a description.',
         main: 'main.',
-        category: '雑談',
+        category: '雑談1',
         tag: [
             'test', 'js',
+        ],
+    },
+    {
+        id: 'test3',
+        date: '2020/05/19',
+        title: 'ブログのタイトル、結構長いタイトルのてすとだよおおおおおおおおおおおおお',
+        description: 'This is a description.',
+        main: 'main.',
+        category: '雑談1',
+        tag: [
+            'test', 'js',
+        ],
+    },
+    {
+        id: 'test4',
+        date: '2020/05/19',
+        title: 'ブログのタイトル、結構長いタイトルのてすとだよおおおおおおおおおおおおお',
+        description: 'This is a description.',
+        main: 'main.',
+        category: '雑談1',
+        tag: [
+            'test', 'js',
+        ],
+    },
+    {
+        id: 'test5',
+        date: '2020/05/19',
+        title: 'ブログのタイトル、結構長いタイトルのてすとだよおおおおおおおおおおおおお',
+        description: 'This is a description.',
+        main: 'main.',
+        category: '雑談1',
+        tag: [
+            'test',
+        ],
+    },
+    {
+        id: 'test6',
+        date: '2020/05/19',
+        title: 'ブログのタイトル、結構長いタイトルのてすとだよおおおおおおおおおおおおお',
+        description: 'This is a description.',
+        main: 'main.',
+        category: '雑談1',
+        tag: [
+            'test',
         ],
     },
 ];
@@ -64,8 +108,13 @@ const BlogMain = () => {
     const [posts, setPosts] = useState([]);
     useEffect(() => {
         setPosts(testData);
-    }, [])
+    }, []);
+        
     const classes = useStyles();
+
+    if (!posts) {
+        return 'Loading ...';
+    }
 
     const ListArticlesPage = ({ match }) => (
         <main className={classes.container}>
@@ -94,9 +143,9 @@ const BlogMain = () => {
             <Route path="/page/:pageNum" exact component={ListArticlesPage} />
             <Route exact path="/article/:year/:month/:day/:id" component={MainPage} />
             <Route path="/category/:category" exact component={ListArticlesPage} />
-            <Route exact path="/category/:category/page/:categoryPageNum" component={ListArticlesPage} />
+            <Route exact path="/category/:category/page/:pageNum" component={ListArticlesPage} />
             <Route path="/tag/:tag" exact component={ListArticlesPage} />
-            <Route exact path="/tag/:tag/page/:tagPageNum" component={ListArticlesPage} />
+            <Route exact path="/tag/:tag/page/:pageNum" component={ListArticlesPage} />
             <Route component={NotFoundPage} />
         </Switch>
     );

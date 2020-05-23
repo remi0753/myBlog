@@ -35,6 +35,9 @@ const testData = {
         'const main = () => {\n' +
         '  return 0;\n' +
         '}\n' +
+        '\`\`\`\n' +
+        '\`\`\`shell\n' +
+        '$ git push origin master\n' +
         '\`\`\`\n',
     nextTitle: '次のブログ記事',
     nextUrl: '/article/2020/05/19/test1212/',

@@ -22,28 +22,34 @@ const useStyles = makeStyles((theme) => ({
         cursor: 'pointer',
     },
     newer: {
-        marginRight: 'auto',        
+        marginLeft: 'auto',        
     },
     older: {
-        marginLeft: 'auto',
+        marginRight: 'auto',
     },
 }));
 
-const BackAndNextButton = () => {
+const BackAndNextButton = ({ prevUrl, nextUrl }) => {
     const classes = useStyles();
 
     return (
         <Box className={classes.buttonContainer}>
-            <Link to="/" className={classes.newer}>
-                <button className={classes.button} onClick={() => window.scrollTo(0, 0)}>
-                    新しい記事
-                </button>
-            </Link>
-            <Link to="/" className={classes.older}>
-                <button className={classes.button} onClick={window.scrollTo(0, 0)}>
-                    古い記事
-                </button>
-            </Link>
+            { prevUrl ? 
+                <Link to={prevUrl} className={classes.older}>
+                    <button className={classes.button} onClick={() => window.scrollTo(0, 0)}>
+                        古い記事
+                    </button>
+                </Link> :
+                null
+            }
+            { nextUrl ?             
+                <Link to={nextUrl} className={classes.newer}>
+                    <button className={classes.button} onClick={() => window.scrollTo(0, 0)}>
+                        新しい記事
+                    </button>
+                </Link> :
+                null
+            }
         </Box>
     );
 };

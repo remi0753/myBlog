@@ -26,7 +26,11 @@ const Tag = ({ type, content }) => {
     const classes = useStyles();
 
     return (
-        <Link to={`/${type}/${content}/`} className={classes.container + ' ' + classes[type]}>
+        <Link 
+            to={`/${type}/${content}/`} 
+            className={classes.container + ' ' + classes[type]} 
+            onClick={() => window.scrollTo(0, 0)}
+        >
             {content}
         </Link>
     );
