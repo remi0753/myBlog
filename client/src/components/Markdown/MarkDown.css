@@ -7,7 +7,7 @@
     font-size: 2em;
     margin: 2em 0 1em;
     padding-bottom: 0.3em;
-    border-bottom: 5px solid grey;
+    border-bottom: 5px solid #bbb;
 }
 
 .markdown h2::after {
