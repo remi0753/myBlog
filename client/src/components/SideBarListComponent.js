@@ -1,6 +1,7 @@
 import React from 'react';
 import { Paper, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     paperContainer: {
@@ -41,7 +42,9 @@ const SideBarListComponent = ({ title, IconName, listItems, color }) => {
             <ul className={classes.listContainer}>
                 {listItems.map((item, i) => (
                     <li className={classes.listItem} key={i}>
-                        <a href={item.link} className={classes.postLink}>{item.name}</a>
+                        <Link to={item.link} className={classes.postLink} onClick={() => window.scrollTo(0, 0)}>
+                            {item.name}
+                        </Link>
                     </li>
                 ))}
             </ul>

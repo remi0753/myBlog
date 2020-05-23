@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Box } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import UpdateIcon from '@material-ui/icons/Update';
 import CategoryIcon from '@material-ui/icons/Category';
@@ -9,10 +9,12 @@ import Profile from './Profile';
 import SideBarListComponent from './SideBarListComponent';
 
 const useStyles = makeStyles((theme) => ({
-    innerBox: {
+    container: {
         marginLeft: '16px',
+        width: '350px',
         [theme.breakpoints.down('sm')]: {
             margin: '3em 0 0',
+            width: '100%'
         },
     },
 }));
@@ -26,7 +28,7 @@ const SideBar = ({ posts }) => {
                 iconName: UpdateIcon,
                 listItems: posts.map((post) => ({
                     name: post.title,
-                    link: '/'
+                    link: '/article/' + post.date + '/' + post.id + '/',
                 })),
             },
             {
@@ -58,20 +60,18 @@ const SideBar = ({ posts }) => {
     const classes = useStyles();
 
     return (
-        <Grid item xs={12} md={4}>
-            <Box className={classes.innerBox}>
-                <Profile />
-                {items.map((item, i) => (
-                    <SideBarListComponent 
-                        title={item.title} 
-                        IconName={item.iconName} 
-                        listItems={item.listItems} 
-                        key={i}
-                        color={item.color}
-                    />
-                ))}
-            </Box>
-        </Grid>
+        <Box className={classes.container}>
+            <Profile />
+            {items.map((item, i) => (
+                <SideBarListComponent 
+                    title={item.title} 
+                    IconName={item.iconName} 
+                    listItems={item.listItems} 
+                    key={i}
+                    color={item.color}
+                />
+            ))}
+        </Box>
     );
 };
 

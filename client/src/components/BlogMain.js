@@ -5,6 +5,7 @@ import { Route, Switch } from 'react-router-dom';
 import ListArticles from './ListArticles';
 import SideBar from './SideBar';
 import NotFound from './NotFound';
+import ArticleMain from './ArticleMain';
 
 const useStyles = makeStyles((theme) => ({
     mainGrid: {
@@ -36,8 +37,8 @@ const testData = [
         ],
     },
     {
-        id: 'test',
-        date: '2020/05/17',
+        id: 'test1',
+        date: '2020/05/18',
         title: 'ブログのタイトル2',
         description: 'This is a description.',
         main: 'main.',
@@ -47,8 +48,8 @@ const testData = [
         ],
     },
     {
-        id: 'test',
-        date: '2020/05/17',
+        id: 'test2',
+        date: '2020/05/19',
         title: 'ブログのタイトル、結構長いタイトルのてすとだよおおおおおおおおおおおおお',
         description: 'This is a description.',
         main: 'main.',
@@ -66,24 +67,38 @@ const BlogMain = () => {
     }, [])
     const classes = useStyles();
 
-    const ListArticlesWithData = ({ match }) => (
-        <ListArticles data={posts} params={match.params}/>
-    );
-
-    return (
+    const ListArticlesPage = ({ match }) => (
         <main className={classes.container}>
-            <Switch>
-                <Route exact path='/' component={ListArticlesWithData} />
-                <Route path="/page/:pageNum" exact component={ListArticlesWithData} />
-                <Route path="/:year/:month/:day/:id" component={ListArticlesWithData} />
-                <Route path="/category/:category" exact component={ListArticlesWithData} />
-                <Route exact path="/category/:category/page/:categoryPageNum" component={ListArticlesWithData} />
-                <Route path="/tag/:tag" exact component={ListArticlesWithData} />
-                <Route exact path="/tag/:tag/page/:tagPageNum" component={ListArticlesWithData} />
-                <Route component={NotFound} />
-            </Switch>
+            <ListArticles posts={posts} params={match.params}/>
             <SideBar posts={posts}/>
         </main>
+    );
+
+    const MainPage = ({ match }) => (
+        <main className={classes.container}>
+            <ArticleMain params={match.params}/>
+            <SideBar posts={posts}/>
+        </main>
+    );
+
+    const NotFoundPage = () => (
+        <main className={classes.container}>
+            <NotFound />
+            <SideBar posts={posts}/>
+        </main>       
+    )
+
+    return (
+        <Switch>
+            <Route exact path='/' component={ListArticlesPage} />
+            <Route path="/page/:pageNum" exact component={ListArticlesPage} />
+            <Route exact path="/article/:year/:month/:day/:id" component={MainPage} />
+            <Route path="/category/:category" exact component={ListArticlesPage} />
+            <Route exact path="/category/:category/page/:categoryPageNum" component={ListArticlesPage} />
+            <Route path="/tag/:tag" exact component={ListArticlesPage} />
+            <Route exact path="/tag/:tag/page/:tagPageNum" component={ListArticlesPage} />
+            <Route component={NotFoundPage} />
+        </Switch>
     );
 };
 

@@ -1,13 +1,16 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     container: {
         marginRight: '0.5em',
+        marginBottom: '0.5em',
         userSelect: 'none',
         borderRadius: '3px',
         padding: '0.1em 1.3em',
+        textDecoration: 'none',
+        whiteSpace: 'nowrap',
     },
     tag: {
         backgroundColor: '#0075c2',
@@ -23,9 +26,9 @@ const Tag = ({ type, content }) => {
     const classes = useStyles();
 
     return (
-        <Box className={classes.container + ' ' + classes[type]}>
+        <Link to={`/${type}/${content}/`} className={classes.container + ' ' + classes[type]}>
             {content}
-        </Box>
+        </Link>
     );
 };
 

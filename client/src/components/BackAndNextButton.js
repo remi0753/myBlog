@@ -35,12 +35,12 @@ const BackAndNextButton = () => {
     return (
         <Box className={classes.buttonContainer}>
             <Link to="/" className={classes.newer}>
-                <button className={classes.button}>
+                <button className={classes.button} onClick={() => window.scrollTo(0, 0)}>
                     新しい記事
                 </button>
             </Link>
             <Link to="/" className={classes.older}>
-                <button className={classes.button}>
+                <button className={classes.button} onClick={window.scrollTo(0, 0)}>
                     古い記事
                 </button>
             </Link>
