@@ -39,7 +39,9 @@ const ArticleSummaryHeader = ({ date, title, category, tags, url }) => {
                 {date}
             </Box>
             <h1 className={classes.articleTitleContainer}>
-                <Link to={url}  className={classes.articleTitleLink}>{title}</Link>
+                <Link to={url}  className={classes.articleTitleLink} onClick={() => window.scrollTo(0, 0)}>
+                    {title}
+                </Link>
             </h1>
             <Box className={classes.tagContainer}>
                 <Tag type='category' content={category}/>
