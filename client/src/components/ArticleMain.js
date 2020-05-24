@@ -33,14 +33,14 @@ const testData = {
         '水平線もでるね。\n\n' +
         '[Google先生](https://www.google.co.jp)\n' +
         '~~取り消し線って出るの？~~\n\n' +
-        '\`\`\`javascript\n' +
+        '```javascript\n' +
         'const main = () => {\n' +
         '  return 0;\n' +
         '}\n' +
-        '\`\`\`\n' +
-        '\`\`\`shell\n' +
+        '```\n' +
+        '```shell\n' +
         '$ git push origin master\n' +
-        '\`\`\`\n',
+        '```\n',
     nextTitle: '次のブログ記事',
     nextUrl: '/article/2020/05/19/test1212/',
     prevTitle: '',
