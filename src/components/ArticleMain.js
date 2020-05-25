@@ -40,7 +40,8 @@ const testData = {
         '```\n' +
         '```shell\n' +
         '$ git push origin master\n' +
-        '```\n',
+        '```\n\n' +
+        '> 引用テストだよ\n',
     nextTitle: '次のブログ記事',
     nextUrl: '/article/2020/05/19/test1212/',
     prevTitle: '',
