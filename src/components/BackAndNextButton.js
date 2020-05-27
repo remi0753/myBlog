@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: 'rgb(127, 15, 255)',
         color: 'white',
         padding: '0.8em 2em',
-        fontSize: '1em',
+        fontSize: '.9em',
         borderWidth: 'initial',
         borderStyle: 'none',
         borderColor: 'initial',
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
         cursor: 'pointer',
     },
     newer: {
-        marginLeft: 'auto',        
+        marginLeft: 'auto',      
     },
     older: {
         marginRight: 'auto',
@@ -31,21 +31,25 @@ const useStyles = makeStyles((theme) => ({
 
 const BackAndNextButton = ({ prevUrl, nextUrl, prev, next }) => {
     const classes = useStyles();
+    const nextTitle = next ? next.length > 10 ? next.slice(0, 10) + '...' : next : '';
+    const prevTitle = prev ? prev.length > 10 ? prev.slice(0, 10) + '...' : prev : '';
+    const fixedNextUrl = next ? '/article/' + nextUrl : nextUrl;
+    const fixedPrevUrl = prev ? '/article/' + prevUrl : prevUrl;
 
     return (
         <Box className={classes.buttonContainer}>
             { prevUrl ? 
-                <Link to={prevUrl} className={classes.older}>
+                <Link to={fixedPrevUrl} className={classes.older}>
                     <button className={classes.button} onClick={() => window.scrollTo(0, 0)}>
-                        {prev ? prev : '古い記事'}
+                        {prevTitle ? prevTitle : '古い記事'}
                     </button>
                 </Link> :
                 null
             }
             { nextUrl ?             
-                <Link to={nextUrl} className={classes.newer}>
+                <Link to={fixedNextUrl} className={classes.newer}>
                     <button className={classes.button} onClick={() => window.scrollTo(0, 0)}>
-                        {next ? next : '新しい記事'}
+                        {nextTitle ? nextTitle : '新しい記事'}
                     </button>
                 </Link> :
                 null

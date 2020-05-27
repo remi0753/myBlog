@@ -13,45 +13,34 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const testData = {
-    title: 'ブログのタイトルだよおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおおお',
-    date: '2020/05/23',
-    category: '雑談',
-    tag: [
-        'js', 'react', 'wwwww',
-    ],
-    md: 
-        '本文だよおおおおおおお。まーくだうんでかかれてるよぉー\n' +
-        '## 見出し２\n' +
-        '本文がつづくよおおおおおおおおおおお\n' + 
-        '### 見出し３\n' +
-        'さらにつづくよぉ。\n\n段落もつくよぉ。\n' +
-        '- リスト１\n' +
-        '   - リスト２\n\n' +
-        '**強調**してみたよ。\n' +
-        '***\n' +
-        '水平線もでるね。\n\n' +
-        '[Google先生](https://www.google.co.jp)\n' +
-        '~~取り消し線って出るの？~~\n\n' +
-        '```javascript\n' +
-        'const main = () => {\n' +
-        '  return 0;\n' +
-        '}\n' +
-        '```\n' +
-        '```shell\n' +
-        '$ git push origin master\n' +
-        '```\n\n' +
-        '> 引用テストだよ\n',
-    nextTitle: '次のブログ記事',
-    nextUrl: '/article/2020/05/19/test1212/',
-    prevTitle: '',
-    prevUrl: '',
-};
+const testData = 
+    '本文だよおおおおおおお。まーくだうんでかかれてるよぉー\n' +
+    '## 見出し２\n' +
+    '本文がつづくよおおおおおおおおおおお\n' + 
+    '### 見出し３\n' +
+    'さらにつづくよぉ。\n\n段落もつくよぉ。\n' +
+    '- リスト１\n' +
+    '   - リスト２\n\n' +
+    '**強調**してみたよ。\n' +
+    '***\n' +
+    '水平線もでるね。\n\n' +
+    '[Google先生](https://www.google.co.jp)\n' +
+    '~~取り消し線って出るの？~~\n\n' +
+    '```javascript\n' +
+    'const main = () => {\n' +
+    '  return 0;\n' +
+    '}\n' +
+    '```\n' +
+    '```shell\n' +
+    '$ git push origin master\n' +
+    '```\n\n' +
+    '> 引用テストだよ\n';
 
-const ArticleMain = ({ params }) => {
+const ArticleMain = ({ params, prevTitle, prevUrl, nextTitle, nextUrl, title, date, category, tag }) => {
     const [article ,setArticle] = useState({});
     useEffect(() => {
-        setArticle(testData);
+        console.log('useEffect');
+        setArticle({ title, date, category, tag, md: testData });
     }, [params])
     const classes = useStyles();
 
@@ -75,10 +64,10 @@ const ArticleMain = ({ params }) => {
                 </article>
             </Paper>
             <BackAndNextButton 
-                prev={article.prevTitle} 
-                prevUrl={article.prevUrl} 
-                next={article.nextTitle} 
-                nextUrl={article.nextUrl} 
+                prev={prevTitle} 
+                prevUrl={prevUrl} 
+                next={nextTitle} 
+                nextUrl={nextUrl} 
             />
         </Grid>
     );

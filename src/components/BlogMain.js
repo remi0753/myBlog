@@ -24,118 +24,84 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const testData = [
-    {
-        id: 'test',
-        date: '2020/05/17',
-        title: 'ブログのタイトル',
-        description: '日本語の文章のテストだよ。とりあえず長々と書いてみるよ。え？なんでこんな文章でテストしてるかって？そりゃ、ああああああ、みたいのじゃ面白くないでしょ？。',
-        main: 'main.',
-        category: '雑談1',
-        tag: [
-            'test', 'js',
-        ],
-    },
-    {
-        id: 'test1',
-        date: '2020/05/18',
-        title: 'ブログのタイトル2',
-        description: 'This is a description.',
-        main: 'main.',
-        category: '雑談2',
-        tag: [
-            'test', 'js', 'aaaaaa', 'wwwwwwwwwwww', 'たぐううううううう'
-        ],
-    },
-    {
-        id: 'test2',
-        date: '2020/05/19',
-        title: 'ブログのタイトル、結構長いタイトルのてすとだよおおおおおおおおおおおおお',
-        description: 'This is a description.',
-        main: 'main.',
-        category: '雑談1',
-        tag: [
-            'test', 'js',
-        ],
-    },
-    {
-        id: 'test3',
-        date: '2020/05/19',
-        title: 'ブログのタイトル、結構長いタイトルのてすとだよおおおおおおおおおおおおお',
-        description: 'This is a description.',
-        main: 'main.',
-        category: '雑談1',
-        tag: [
-            'test', 'js',
-        ],
-    },
-    {
-        id: 'test4',
-        date: '2020/05/19',
-        title: 'ブログのタイトル、結構長いタイトルのてすとだよおおおおおおおおおおおおお',
-        description: 'This is a description.',
-        main: 'main.',
-        category: '雑談1',
-        tag: [
-            'test', 'js',
-        ],
-    },
-    {
-        id: 'test5',
-        date: '2020/05/19',
-        title: 'ブログのタイトル、結構長いタイトルのてすとだよおおおおおおおおおおおおお',
-        description: 'This is a description.',
-        main: 'main.',
-        category: '雑談1',
-        tag: [
-            'test',
-        ],
-    },
-    {
-        id: 'test6',
-        date: '2020/05/19',
-        title: 'ブログのタイトル、結構長いタイトルのてすとだよおおおおおおおおおおおおお',
-        description: 'This is a description.',
-        main: 'main.',
-        category: '雑談1',
-        tag: [
-            'test',
-        ],
-    },
-];
-
 const BlogMain = () => {
     const [posts, setPosts] = useState([]);
     useEffect(() => {
-        setPosts(testData);
+        fetch('./api/v1/get-summary-list')
+        .then((res) => res.json())
+        .then((data) => {
+            setPosts(data.map((item) => {
+                return { ...item, date: item.date.split('T')[0].replace(/-/g, '/'), id: item.articleId};
+            }));
+        });
     }, []);
         
     const classes = useStyles();
 
     if (!posts) {
-        return 'Loading ...';
+        return '';
     }
 
-    const ListArticlesPage = ({ match }) => (
-        <main className={classes.container}>
-            <ListArticles posts={posts} params={match.params}/>
-            <SideBar posts={posts}/>
-        </main>
-    );
+    const ListArticlesPage = ({ match }) => {
+        if (posts.length === 0) {
+            return '';
+        }
 
-    const MainPage = ({ match }) => (
-        <main className={classes.container}>
-            <ArticleMain params={match.params}/>
-            <SideBar posts={posts}/>
-        </main>
-    );
+        return (
+            <main className={classes.container}>
+                <ListArticles posts={posts} params={match.params}/>
+                <SideBar posts={posts}/>
+            </main>
+        );
+    };
 
-    const NotFoundPage = () => (
-        <main className={classes.container}>
-            <NotFound />
-            <SideBar posts={posts}/>
-        </main>       
-    )
+    const MainPage = ({ match }) => {
+        if (posts.length === 0) {
+            return '';
+        }
+
+        const { year, month, day, id } = match.params;
+        const articleIndex = posts.findIndex((post) => (post.date === year + '/' + month + '/' + day && post.id === id));
+        const prevIndex = articleIndex - 1; 
+        const nextIndex = articleIndex + 1
+        const [prevTitle, prevUrl] = 0 <= prevIndex ? 
+            [posts[prevIndex].title,  posts[prevIndex].date + '/' + posts[prevIndex].id] : 
+            ['', ''];
+        const [nextTitle, nextUrl] = nextIndex <= posts.length - 1 ?
+            [posts[nextIndex].title, posts[nextIndex].date + '/' + posts[nextIndex].id] :
+            ['', ''];
+        const { title, date, category, tag } = posts[articleIndex];
+
+        return (
+            <main className={classes.container}>
+                <ArticleMain 
+                    params={match.params} 
+                    prevTitle={prevTitle} 
+                    prevUrl={prevUrl} 
+                    nextTitle={nextTitle} 
+                    nextUrl={nextUrl}
+                    title={title}
+                    date={date}
+                    category={category}
+                    tag={tag}
+                />
+                <SideBar posts={posts}/>
+            </main>
+        );
+    };
+
+    const NotFoundPage = () => {
+        if (posts.length === 0) {
+            return '';
+        }
+
+        return (
+            <main className={classes.container}>
+                <NotFound />
+                <SideBar posts={posts}/>
+            </main>       
+        );
+    };
 
     return (
         <Switch>
