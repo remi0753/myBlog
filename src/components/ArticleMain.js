@@ -13,34 +13,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const testData = 
-    '本文だよおおおおおおお。まーくだうんでかかれてるよぉー\n' +
-    '## 見出し２\n' +
-    '本文がつづくよおおおおおおおおおおお\n' + 
-    '### 見出し３\n' +
-    'さらにつづくよぉ。\n\n段落もつくよぉ。\n' +
-    '- リスト１\n' +
-    '   - リスト２\n\n' +
-    '**強調**してみたよ。\n' +
-    '***\n' +
-    '水平線もでるね。\n\n' +
-    '[Google先生](https://www.google.co.jp)\n' +
-    '~~取り消し線って出るの？~~\n\n' +
-    '```javascript\n' +
-    'const main = () => {\n' +
-    '  return 0;\n' +
-    '}\n' +
-    '```\n' +
-    '```shell\n' +
-    '$ git push origin master\n' +
-    '```\n\n' +
-    '> 引用テストだよ\n';
-
-const ArticleMain = ({ params, prevTitle, prevUrl, nextTitle, nextUrl, title, date, category, tag }) => {
+const ArticleMain = ({ params, prevTitle, prevUrl, nextTitle, nextUrl, title, date, category, tag, id }) => {
     const [article ,setArticle] = useState({});
     useEffect(() => {
-        console.log('useEffect');
-        setArticle({ title, date, category, tag, md: testData });
+        fetch(`./api/v1/get-article/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+            setArticle({ title, date, category, tag, md: data.md.replace(/\\n/g, '\n') });
+        });
     }, [params])
     const classes = useStyles();
 

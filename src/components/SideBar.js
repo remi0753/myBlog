@@ -26,7 +26,7 @@ const SideBar = ({ posts }) => {
             {
                 title: '最新の記事',
                 iconName: UpdateIcon,
-                listItems: posts.map((post) => ({
+                listItems: posts.filter((_, i) => i < 5).map((post) => ({
                     name: post.title,
                     link: '/article/' + post.date + '/' + post.id + '/',
                 })),

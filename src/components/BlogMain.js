@@ -30,9 +30,10 @@ const BlogMain = () => {
         fetch('./api/v1/get-summary-list')
         .then((res) => res.json())
         .then((data) => {
-            setPosts(data.map((item) => {
+            const setData = data.map((item) => {
                 return { ...item, date: item.date.split('T')[0].replace(/-/g, '/'), id: item.articleId};
-            }));
+            });
+            setPosts(setData);
         });
     }, []);
         
@@ -70,7 +71,7 @@ const BlogMain = () => {
         const [nextTitle, nextUrl] = nextIndex <= posts.length - 1 ?
             [posts[nextIndex].title, posts[nextIndex].date + '/' + posts[nextIndex].id] :
             ['', ''];
-        const { title, date, category, tag } = posts[articleIndex];
+        const { title, date, category, tag, _id } = posts[articleIndex];
 
         return (
             <main className={classes.container}>
@@ -84,6 +85,7 @@ const BlogMain = () => {
                     date={date}
                     category={category}
                     tag={tag}
+                    id={_id}
                 />
                 <SideBar posts={posts}/>
             </main>
