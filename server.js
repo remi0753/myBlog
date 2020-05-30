@@ -1,12 +1,17 @@
 const express = require('express');
 const path = require('path');
-const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const md5 = require('blueimp-md5');
 const {v4: uuidv4} = require('uuid');
 const createError = require('http-errors');
+const multer = require('multer');
+const fs = require('fs');
+const app = express();
+
+//images upload
+const uploadDir = multer({dest: path.join(__dirname, 'images')});
 
 //mongoose
 //Mongo DB settings
@@ -22,11 +27,7 @@ const ArticleSummaryList = mongoose.model('articleSummaryList', new Schema({
 }), 'articleSummaryList');
 mongoose.connect('mongodb://localhost/localBlogDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
-//digest authentication setting
-// it will be removed
-const allowedUsers = {
-    'test': 'ad',
-};
+const a1_md5 = 'b3569dc7ad01d670421b81348e75630f';
 
 const parseAuthorization = (authorization) => {
     const returnData = authorization
@@ -62,12 +63,12 @@ app.use('/upload', (req, res, next) => {
     if (!!session.nc) {
         session.nc += 1;
     } else {
-        session.nc = 2;
+        session.nc = 1;
     }
     if (req.originalUrl !== '/upload') {
         next();
     } else {
-        const realm = 'tutorial';
+        const realm = 'reincarnation';
         const method = 'GET';
         const qop = 'auth';
         const authorization = req.get('authorization');
@@ -75,10 +76,8 @@ app.use('/upload', (req, res, next) => {
         if (!!authorization && !!session.nonce && !!session.nc) {
             const authParams = parseAuthorization(authorization);
             if (session.nc === parseInt(authParams.nc, 16)) {
-                //これを用意しとけばよさそう
-                const a1 = authParams.username + ':' + realm + ':' + allowedUsers[authParams.username];
+                //const a1_md5 = md5(user + ':' + realm + ':' + pass);
                 const a2 = method + ':' + authParams.uri;
-                const a1_md5 = md5(a1);
                 const a2_md5 = md5(a2);
                 const code = 
                     a1_md5 + ':' + 
@@ -92,7 +91,7 @@ app.use('/upload', (req, res, next) => {
             }
         }
         if (judgement) {
-            next();
+            res.sendFile(path.join(__dirname, 'uploader', 'index.html'));
         } else {
             session.nonce = uuidv4();
             session.nc = 0;
@@ -103,9 +102,6 @@ app.use('/upload', (req, res, next) => {
         }
     }
 });
-app.use('/upload', (req, res) => {
-    res.sendFile(path.join(__dirname, 'uploader', 'index.html'));
-});
 
 app.post('/api/v1/insert-article', (req, res) => {
     if (!req.body){
@@ -114,8 +110,7 @@ app.post('/api/v1/insert-article', (req, res) => {
 
     ArticleSummaryList.find({articleId: req.body.articleId}, (err, result) => {
         if (err || result.length !== 0) {
-            console.log('error: match id');
-            return res.status(500).send('user create failed.');            
+            return res.status(500).send('error:match id');            
         }
 
         const instance = new ArticleSummaryList();
@@ -124,12 +119,25 @@ app.post('/api/v1/insert-article', (req, res) => {
             if(!err) {
                 return res.status(200).send('user create success.');
             } else {
-                console.log('error: save');
-                return res.status(500).send('user create failed.');
+                return res.status(500).send('error: save');
             }       
         });
     });
 });
+
+app.post('/api/v1/image-upload', uploadDir.array('images'), (req, res) => {
+    req.files.map((file) => {
+        fs.rename(file.path, path.join(__dirname, 'images', file.originalname), () => {
+            return;
+        });
+    });
+    res.status(200).send('ok');
+});
+
+app.use('/images/:image', (req, res) => {
+    res.writeHead(200, {"Content-Type": "image/png"});
+    res.end(fs.readFileSync(path.join(__dirname, 'images', req.params.image)));
+})
 
 app.use('/api/v1/get-article/:id', (req, res) => {
     ArticleSummaryList.findById(req.params.id, {_id: 0, md: 1}, (err, result) => {

@@ -8,8 +8,53 @@
             background-color: rgb(240, 240, 240);
         }
     </style>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="./uploader.js"></script>
 </head>
 <body>
     <h1>アップローダー</h1>
+    <form>
+        <p>
+            articleId:
+            <input type="text" id="articleId" required/>
+        </p>
+        <p>
+            date(YYYY-MM-DD):
+            <input type="text" id="date" required/>
+        </p>
+        <p>
+            title:
+            <input type="text" id="title" required/>
+        </p>
+        <p>
+            description:
+            <textarea id="description" rows="5" cols="80" required></textarea>
+        </p>
+        <p>
+            category:
+            <input type="text" id="category" required/>
+        </p>
+        <p>
+            tags:
+            <input type="text" id="tags" required/>
+        </p>
+        <p>
+            md:
+            <input type="file" id="mdFile"/>
+        </p>        
+        <p>
+            <button id="submit_article" onclick="submitArticle()" aria-required="true">send</button>
+        </p>
+    </form>
+    <form method="POST" action="/api/v1/image-upload" enctype="multipart/form-data" id="form" target="sendPhoto">
+        <p>
+            images:
+            <input type="file" name="images" id="images" multiple/>
+        </p>
+        <p>
+            <button class="btn-send" type="submit">upload</button>
+        </p>
+    </form>
+    <iframe name="sendPhoto" style="width:0px;height:0px;border:0px;"></iframe>
 </body>
 </html>
